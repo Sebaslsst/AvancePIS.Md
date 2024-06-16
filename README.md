@@ -7,4 +7,7 @@ Tambien adjuntaremos el informe realizado por el grupo
 - Steeven Narváez 
 - Fernando Ortega 
 - Leonardo Sánchez
-1. **Orientacion del sol**
+# Informe 
+
+# Código en C
+**Orientacion del sol**
