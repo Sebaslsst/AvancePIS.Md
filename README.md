@@ -1,4 +1,5 @@
 # Avance P.I.S GRUPO 9
+
 Este repositorio contiene el código en C de nustro proyecto P.I.S el cuál trata de calcularnos la orientación del sol. 
 Tambien adjuntaremos el informe realizado por el grupo 
 # Los integrantes del grupo son: 
@@ -96,7 +97,7 @@ Calcula el azimut en radianes utilizando atan2, que tiene en cuenta el signo y l
 solPos.azimut = radianesAGrados (azimutRadianes);
 
 Convierte el azimut de radianes a grados.
-if (solPos.azimut < 0) { solPos.azimut  += 360.0; }
+if (solPos.azimut < 0) { solPos.azimut  += 360.0; } 
 
 Ajusta el azimut para que esté en el rango de 0 a 360 grados.
 solPos.azimut = fmod((sunPos.azimuth + 180.0), 360.0);
