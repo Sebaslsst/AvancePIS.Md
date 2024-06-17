@@ -56,11 +56,13 @@ double azimut: El azimut en grados, convertido a partir de azimutRadianes.
 
 ## Detalle de las variables y su cálculo ##
 
-dayOfYear o diaDelAño:
+## dayOfYear o diaDelAño:
+
 int dayOfYear = timeinfo->tm_yday + 1;
 
 Calcula el día del año. tm_yday es el día del año desde 0 (1 de enero es 0), por eso se le suma 1.
-hora:
+
+## hora:
 double hora = timeinfo->tm_hour + timeinfo->tm_min / 60.0 + timeinfo->tm_sec / 3600.0;
 
 Convierte la hora actual en una representación decimal. Por ejemplo, 14:30:00 se convierte en 14.5.
