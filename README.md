@@ -8,7 +8,7 @@ Tambien adjuntaremos el informe realizado por el grupo
 - Fernando Ortega 
 - Leonardo Sánchez
 # Informe 
- 
+EN este enlace  esta nuestro informe: https://github.com/Sebaslsst/AvancePIS.Md/blob/1d267c2fc23a10fa22e03b687157546368a95741/Evaluaci%C3%B3n_Proyecto_PIS.pdf
 # Código en C
 **Orientacion del sol**
 
