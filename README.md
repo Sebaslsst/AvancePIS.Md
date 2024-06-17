@@ -64,11 +64,13 @@ hora:
 double hora = timeinfo->tm_hour + timeinfo->tm_min / 60.0 + timeinfo->tm_sec / 3600.0;
 
 Convierte la hora actual en una representación decimal. Por ejemplo, 14:30:00 se convierte en 14.5.
-declinación:
+
+## declinación:
 double declinacion = 23.44 * sin(degreesToRadians(360.0 / 365.0 * (dayOfYear - 81)));
 
 Calcula la declinación solar en función del día del año. La declinación varía entre ±23.44 grados durante el año.
-medioDiaSolar:
+
+## medioDiaSolar:
 double medioDiaSolar = 12.0 - (4.0 * (longitude - 15.0 * round(longitude / 15.0))) / 60.0;
 
 Calcula el mediodía solar ajustado por la longitud del lugar. Cada grado de longitud este/oeste ajusta el tiempo solar en 4 minutos.
@@ -85,6 +87,7 @@ Calcula la elevación solar usando la fórmula de ángulo de elevación. La func
 
 ## azimutRadianes: ##
 double azimutRadianes = atan2(sin(gradosARadianes (anguloHora)), cos(gradosARadianes (anguloHora)) * sin(gradosARadianes (latitud)) - tan(gradosARadianes (declinacion)) * cos(gradosARadianes (latitud)));
+
 Calcula el azimut en radianes utilizando atan2, que tiene en cuenta el signo y la cuadrante correcta del ángulo horario.
 
 ## azimut: ##
