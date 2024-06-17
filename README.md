@@ -4,7 +4,7 @@ Tambien adjuntaremos el informe realizado por el grupo
 # Los integrantes del grupo son: 
 - Ana Panamito 
 - Julian Vega 
-- Steeven Narváez 
+- Steven Narváez 
 - Fernando Ortega 
 - Leonardo Sánchez
 # Informe 
