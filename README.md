@@ -8,7 +8,7 @@ Tambien adjuntaremos el informe realizado por el grupo
 - Fernando Ortega 
 - Leonardo Sánchez
 # Informe 
-En este link esta nuestro informe: Evaluación_Proyecto_PIS.pdf
+En este link esta nuestro informe: (Evaluación_Proyecto_PIS.pdf)
 # Código en C
 **Orientacion del sol**
 
