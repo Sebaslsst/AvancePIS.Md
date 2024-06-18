@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 // Definimos la estructura que sirve como almacenamiento para la orientación del sol
 typedef struct {
@@ -16,7 +18,7 @@ double gradosARadianes(double grados) {
     return grados * M_PI / 180.0;
 }
 
-// Función que nos ayuda convertir radianes a grados
+// Función que nos ayuda a convertir radianes a grados
 double radianesAGrados(double radianes) {
     return radianes * 180.0 / M_PI;
 }
@@ -26,7 +28,6 @@ SolPosicion calculoSolPosicion(double latitud, double longitud, struct tm *timei
     SolPosicion solPos;
 
     // Convertir la hora local en hora solar
-    // dayOfYear es los dias contados desde el 1 de enero 
     int dayOfYear = timeinfo->tm_yday + 1; // tm_yday cuenta desde 0
     double hora = timeinfo->tm_hour + timeinfo->tm_min / 60.0 + timeinfo->tm_sec / 3600.0;
 
@@ -41,29 +42,51 @@ SolPosicion calculoSolPosicion(double latitud, double longitud, struct tm *timei
     solPos.elevacion = radianesAGrados(asin(sin(gradosARadianes(latitud)) * sin(gradosARadianes(declinacion)) +
                                               cos(gradosARadianes(latitud)) * cos(gradosARadianes(declinacion)) * cos(gradosARadianes(anguloHora))));
 
-    // Calcular el azimut solar
-    solPos.azimut = radianesAGrados(atan2(-sin(gradosARadianes(anguloHora)),
-                                            cos(gradosARadianes(anguloHora)) * sin(gradosARadianes(latitud)) -
-                                            tan(gradosARadianes(declinacion)) * cos(gradosARadianes(latitud))));
+    // Calcular el azimut solar usando la fórmula proporcionada
+    double elevacionRad = gradosARadianes(solPos.elevacion);
+    double declinacionRad = gradosARadianes(declinacion);
+    double latitudRad = gradosARadianes(latitud);
 
-    if (solPos.azimut < 0) {
-        solPos.azimut += 360.0;
+    double azimutRad = acos((sin(declinacionRad) - sin(elevacionRad) * sin(latitudRad)) / (cos(elevacionRad) * cos(latitudRad)));
+    double azimut = radianesAGrados(azimutRad);
+
+    // Ajustar el azimut para que se mida desde el sur en sentido antihorario
+    if (anguloHora > 0) {
+        azimut = 360.0 - azimut;
     }
-    
+
+    solPos.azimut = azimut;
+
     return solPos;
 }
 
-// Función principal, usamos dos variables la latitud y longitud  
+// Función para leer un double de forma segura
+double leerDouble(const char *prompt) {
+    double valor;
+    char buffer[100];
+    while (true) {
+        printf("%s", prompt);
+        if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+            char *endptr;
+            valor = strtod(buffer, &endptr);
+            if (endptr != buffer && (*endptr == '\n' || *endptr == '\0')) {
+                break;
+            }
+        }
+        printf("Entrada inválida. Por favor ingrese un número.\n");
+    }
+    return valor;
+}
+
+// Función principal
 int main() {
-    double latitud, longitud;
+    // Leer la latitud y longitud de forma segura
+    double latitud = leerDouble("Ingrese la latitud: ");
+    double longitud = leerDouble("Ingrese la longitud: ");
+
+    // Obtener la hora actual
     time_t t = time(NULL);
     struct tm *timeinfo = localtime(&t);
-
-    // Se pide al usuario ingresar la latitud y longitud
-    printf("Ingrese la latitud: ");
-    scanf("%lf", &latitud);
-    printf("Ingrese la longitud: ");
-    scanf("%lf", &longitud);
 
     // Calcular la posición del sol
     SolPosicion solPos = calculoSolPosicion(latitud, longitud, timeinfo);
