@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-// Definimos la estructura que sirve como almacenamiento para la orientación del sol
+// Se define la estructura que sirve como almacenamiento para la orientación del sol
 typedef struct {
     double azimut; // Azimut (ángulo en el plano horizontal desde el norte)
     double elevacion; // Elevación (ángulo desde el horizonte)
@@ -27,22 +27,22 @@ double radianesAGrados(double radianes) {
 SolPosicion calculoSolPosicion(double latitud, double longitud, struct tm *timeinfo) {
     SolPosicion solPos;
 
-    // Convertir la hora local en hora solar
+    // Se Convierte la hora local en hora solar
     int dayOfYear = timeinfo->tm_yday + 1; // tm_yday cuenta desde 0
     double hora = timeinfo->tm_hour + timeinfo->tm_min / 60.0 + timeinfo->tm_sec / 3600.0;
 
-    // Calcular la declinación solar
+    // Se calcula la declinación solar
     double declinacion = 23.44 * sin(gradosARadianes(360.0 / 365.0 * (dayOfYear - 81)));
 
-    // Calcular el ángulo horario
+    // Se calcula el ángulo horario
     double medioDiaSolar = 12.0 - (4.0 * (longitud - 15.0 * round(longitud / 15.0))) / 60.0;
     double anguloHora = 15.0 * (hora - medioDiaSolar);
 
-    // Calcular la elevación solar
+    // Se calcula la elevación solar usandp la fórmula específica 
     solPos.elevacion = radianesAGrados(asin(sin(gradosARadianes(latitud)) * sin(gradosARadianes(declinacion)) +
                                               cos(gradosARadianes(latitud)) * cos(gradosARadianes(declinacion)) * cos(gradosARadianes(anguloHora))));
 
-    // Calcular el azimut solar usando la fórmula proporcionada
+    // Se debe calcular el azimut solar usando la fórmula proporcionada
     double elevacionRad = gradosARadianes(solPos.elevacion);
     double declinacionRad = gradosARadianes(declinacion);
     double latitudRad = gradosARadianes(latitud);
