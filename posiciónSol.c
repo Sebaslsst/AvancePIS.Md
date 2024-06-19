@@ -4,16 +4,16 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-// Se define la estructura que sirve como almacenamiento para la orientación del sol
+// Definimos la estructura que sirve como almacenamiento para la orientación del sol
 typedef struct {
     double azimut; // Azimut (ángulo en el plano horizontal desde el norte)
     double elevacion; // Elevación (ángulo desde el horizonte)
 } SolPosicion;
 
-// Función para calcular la posición del sol
+// Se elabora una función para calcular la posición del sol
 SolPosicion calculoSolPosicion(double latitud, double longitud, struct tm *timeinfo);
 
-// Función que nos ayuda a convertir grados a radianes
+// Impkementar la función que nos ayuda a convertir grados a radianes
 double gradosARadianes(double grados) {
     return grados * M_PI / 180.0;
 }
@@ -27,22 +27,22 @@ double radianesAGrados(double radianes) {
 SolPosicion calculoSolPosicion(double latitud, double longitud, struct tm *timeinfo) {
     SolPosicion solPos;
 
-    // Se Convierte la hora local en hora solar
+    // Convertir la hora local en hora solar
     int dayOfYear = timeinfo->tm_yday + 1; // tm_yday cuenta desde 0
     double hora = timeinfo->tm_hour + timeinfo->tm_min / 60.0 + timeinfo->tm_sec / 3600.0;
 
-    // Se calcula la declinación solar
+    // Calcular la declinación solar
     double declinacion = 23.44 * sin(gradosARadianes(360.0 / 365.0 * (dayOfYear - 81)));
 
-    // Se calcula el ángulo horario
+    //Se calcula el ángulo horario
     double medioDiaSolar = 12.0 - (4.0 * (longitud - 15.0 * round(longitud / 15.0))) / 60.0;
     double anguloHora = 15.0 * (hora - medioDiaSolar);
 
-    // Se calcula la elevación solar usandp la fórmula específica 
+    // Ahora se calcula la elevación solar con la formula investigada
     solPos.elevacion = radianesAGrados(asin(sin(gradosARadianes(latitud)) * sin(gradosARadianes(declinacion)) +
                                               cos(gradosARadianes(latitud)) * cos(gradosARadianes(declinacion)) * cos(gradosARadianes(anguloHora))));
 
-    // Se debe calcular el azimut solar usando la fórmula proporcionada
+    // Debemos calcular el azimut solar usando la fórmula proporcionada
     double elevacionRad = gradosARadianes(solPos.elevacion);
     double declinacionRad = gradosARadianes(declinacion);
     double latitudRad = gradosARadianes(latitud);
@@ -60,7 +60,7 @@ SolPosicion calculoSolPosicion(double latitud, double longitud, struct tm *timei
     return solPos;
 }
 
-// Función para leer un double de forma segura
+// Función que sive para leer un valor entero o decimal de forma segura
 double leerDouble(const char *prompt) {
     double valor;
     char buffer[100];
@@ -73,14 +73,14 @@ double leerDouble(const char *prompt) {
                 break;
             }
         }
-        printf("Entrada inválida. Por favor ingrese un número.\n");
+        printf("Entrada invalida. Por favor ingrese un numero.\n");
     }
     return valor;
 }
 
-// Función principal
+// Función principal main 
 int main() {
-    // Leer la latitud y longitud de forma segura
+    // Leer la latitud y longitud de forma segura con usando las funciones anteriores
     double latitud = leerDouble("Ingrese la latitud: ");
     double longitud = leerDouble("Ingrese la longitud: ");
 
@@ -97,3 +97,4 @@ int main() {
 
     return 0;
 }
+
